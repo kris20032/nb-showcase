@@ -445,11 +445,15 @@ section{padding-block:clamp(64px,8vw,128px)}
   font-family:var(--font-display);font-style:normal;font-weight:600;
   font-size:clamp(2.1rem,5.2vw,4rem);line-height:1.05;letter-spacing:.005em;
   color:#f5f1ea;max-width:16ch;text-shadow:0 2px 18px rgba(0,0,0,.5)}
-@media(max-width:640px){.hg-tagline{font-size:clamp(2rem,8vw,2.6rem);margin-bottom:clamp(2rem,9vh,3.4rem)}}
+.hg-since{display:block;margin-top:.55rem;font-family:var(--font-body);font-weight:600;
+  font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(245,241,234,.82);text-shadow:0 1px 8px rgba(0,0,0,.5)}
+@media(max-width:640px){.hg-tagline{font-size:clamp(2rem,8vw,2.6rem);margin-bottom:clamp(2rem,9vh,3.4rem)}.hg-since{font-size:.66rem}}
 
 /* --- NAWIGACJA GASTRO: logo z LEWEJ (split), przezroczysta nad ciemnym hero/pageheadem, lita po scrollu (is-stuck).
    Bezpieczne na wszystkich podstronach (każda ma ciemny header). Subtelny scrim pod navem = biały tekst nad dowolnym zdjęciem. --- */
-.nav{position:fixed;left:0;right:0;background:linear-gradient(180deg,rgba(8,6,4,.42) 0%,rgba(8,6,4,0) 100%);backdrop-filter:none;border-bottom:1px solid transparent}
+.nav{position:fixed;left:0;right:0;background:linear-gradient(180deg,rgba(8,6,4,.42) 0%,rgba(8,6,4,0) 100%);backdrop-filter:none;border-bottom:1px solid transparent;transition:transform .45s var(--ease),background .4s ease,box-shadow .4s ease}
+/* chowanie navu przy scrollu w dół, wjazd przy scrollu w górę (gastro.js) */
+.nav.nav-hidden{transform:translateY(-100%)}
 .nav .brand .name{color:#f5f1ea}
 .nav .brand .sub{color:rgba(245,241,234,.74)}
 .nav .nav-links a{color:rgba(245,241,234,.9)}

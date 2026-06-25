@@ -37,3 +37,30 @@
   }, { passive: true });
   upd();
 })();
+
+/* === rodzina: gastro === */
+/* === rodzina GASTRO: nav chowa się przy scrollu w DÓŁ, wjeżdża przy scrollu w GÓRĘ ===
+   Współgra z base.js (is-stuck = przezroczysty -> lity). Blisko góry zawsze widoczny. */
+(function () {
+  var nav = document.querySelector('.nav');
+  if (!nav) return;
+  var last = window.scrollY || 0;
+  var TH = 8;            // próg, żeby nie migało przy mikro-ruchu
+  var SHOW_NEAR = 120;   // blisko góry zawsze widoczny
+  var ticking = false;
+  function upd() {
+    var y = window.scrollY || 0;
+    if (y < SHOW_NEAR) {
+      nav.classList.remove('nav-hidden');
+    } else if (y > last + TH) {
+      nav.classList.add('nav-hidden');      // scroll w dół -> schowaj
+    } else if (y < last - TH) {
+      nav.classList.remove('nav-hidden');   // scroll w górę -> pokaż
+    }
+    last = y;
+    ticking = false;
+  }
+  window.addEventListener('scroll', function () {
+    if (!ticking) { window.requestAnimationFrame(upd); ticking = true; }
+  }, { passive: true });
+})();
