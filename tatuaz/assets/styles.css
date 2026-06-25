@@ -13,9 +13,9 @@
   --ink-soft:#cfc8bf;       /* nagłówki drugorzędne */
   --muted:#8f8880;          /* tekst poboczny */
   --line:rgba(245,242,236,.12);/* hairline */
-  --accent:#ff6a1a;         /* stonowany petrol-slate — jedyny akcent */
-  --accent-d:#f2620c;
-  --accent-soft:rgba(255,106,26,.10);
+  --accent:#d8362c;         /* stonowany petrol-slate — jedyny akcent */
+  --accent-d:#ab241d;
+  --accent-soft:rgba(216,54,44,.10);
   --dark:#0c0b0a;           /* sekcje ciemne (stopka/CTA) */
 
   /* ODSTĘPY — skala 4/8 */
@@ -468,3 +468,46 @@ section{padding-block:clamp(64px,8vw,128px)}
   .sr-call{width:60px;background:var(--paper-2);color:var(--ink);font-size:1.15rem;border-left:1px solid var(--line)}
   body{padding-bottom:56px}
 }
+
+/* ============================================================
+   FAZA 3 - OSOBNY UKŁAD STUDIO (wzór: topowe studia tatuażu - Bang Bang/Sake/Seven Doors/Frith Street/Sashatattooing; research wf_5981d31c).
+   Czarna GALERIA SZTUKI. Hero MINIMALNY: jedna praca/atmosfera pełnoekranowo + placard (dyscyplina+miasto) w dolnym-lewym + hairline-ramka inset (sygnatura "ekspozycja").
+   Nazwa pada RAZ - logo w navie. PORTFOLIO = sekcja #2 (bohater). Nav: przezroczysty->CIEMNY lity (nie krem jak gastro), zwijany. CTA = obrys.
+   Wyróżnik od gastro: Syne wersaliki placard (nie serif tytuł), czerń, hairline-ramka, galeria-jako-#2.
+   ============================================================ */
+.hero-studio{position:relative;height:100vh;height:100svh;min-height:560px;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate;background:#0b0a09}
+.hero-studio .hs-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:-2;animation:hsKen 30s ease-out infinite alternate}
+@keyframes hsKen{from{transform:scale(1.05)}to{transform:scale(1.13)}}
+.hero-studio .hs-veil{position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(180deg,rgba(8,7,6,.18) 0%,rgba(8,7,6,0) 30%,rgba(8,7,6,0) 56%,rgba(8,7,6,.72) 100%)}
+/* hairline ramka inset = "to ekspozycja, nie strona usługowa" (WIDOCZNA, nie subtelna) */
+.hero-studio::after{content:"";position:absolute;inset:16px;border:1px solid rgba(245,242,236,.22);pointer-events:none;z-index:2}
+.hs-placard{position:relative;z-index:3;margin:0 0 clamp(2.4rem,7vh,4.6rem) clamp(1.8rem,5vw,4rem)}
+.hs-disc{display:block;font-family:var(--font-display);font-weight:600;text-transform:uppercase;
+  font-size:clamp(1.15rem,2.1vw,1.6rem);letter-spacing:.2em;color:#f5f2ec;text-shadow:0 2px 16px rgba(0,0,0,.55)}
+.hs-place{display:block;margin-top:.5rem;font-family:var(--font-body);font-weight:600;text-transform:uppercase;
+  font-size:.74rem;letter-spacing:.26em;color:rgba(245,242,236,.72);text-shadow:0 1px 8px rgba(0,0,0,.55)}
+@media(max-width:640px){.hero-studio::after{inset:10px}}
+
+/* PORTFOLIO jako sekcja #2 - ciasna ściana eksponatów; przy malo zdjeciach (cols-2) zwezamy i centrujemy, zeby nie bylo pustej czerni */
+.studio-portfolio{padding-top:clamp(3.5rem,7vh,6rem)}
+.studio-gallery.cols-2{max-width:60rem;margin-inline:auto}
+
+/* --- NAWIGACJA STUDIO: przezroczysta nad czarnym hero, CIEMNA lita po scrollu (nie krem!), zwijana (studio.js) --- */
+.nav{position:fixed;left:0;right:0;background:linear-gradient(180deg,rgba(8,7,6,.5) 0%,rgba(8,7,6,0) 100%);backdrop-filter:none;border-bottom:1px solid transparent;transition:transform .45s var(--ease),background .4s ease}
+.nav.nav-hidden{transform:translateY(-100%)}
+.nav .brand .name{color:#f5f2ec}
+.nav .brand .sub{color:rgba(245,242,236,.7)}
+.nav .nav-links a{color:rgba(245,242,236,.88)}
+.nav .nav-links a:hover,.nav .nav-links a.active{color:#fff}
+.nav .nav-links a::after{background:var(--accent)}
+.nav .nav-toggle span{background:#f5f2ec}
+.nav .nav-links a.btn-accent{background:transparent;border:1px solid rgba(245,242,236,.6);color:#f5f2ec}
+.nav .nav-links a.btn-accent:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.nav.is-stuck{background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-filter:saturate(120%) blur(10px);border-bottom:1px solid var(--line)}
+.nav.is-stuck .brand .name{color:#f5f2ec}
+.nav.is-stuck .brand .sub{color:var(--muted)}
+.nav.is-stuck .nav-links a{color:rgba(245,242,236,.8)}
+.nav.is-stuck .nav-links a:hover,.nav.is-stuck .nav-links a.active{color:#fff}
+.nav.is-stuck .nav-links a.btn-accent{background:transparent;border-color:rgba(245,242,236,.5);color:#f5f2ec}
+.nav.is-stuck .nav-toggle span{background:#f5f2ec}

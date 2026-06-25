@@ -82,3 +82,21 @@
     else if (e.key === 'ArrowRight') show(cur + 1);
   });
 })();
+
+/* === rodzina STUDIO: nav chowa się przy scrollu w DÓŁ, wjeżdża w GÓRĘ (jak gastro) === */
+(function () {
+  var nav = document.querySelector('.nav');
+  if (!nav) return;
+  var last = window.scrollY || 0;
+  var TH = 8, SHOW_NEAR = 120, ticking = false;
+  function upd() {
+    var y = window.scrollY || 0;
+    if (y < SHOW_NEAR) nav.classList.remove('nav-hidden');
+    else if (y > last + TH) nav.classList.add('nav-hidden');
+    else if (y < last - TH) nav.classList.remove('nav-hidden');
+    last = y; ticking = false;
+  }
+  window.addEventListener('scroll', function () {
+    if (!ticking) { window.requestAnimationFrame(upd); ticking = true; }
+  }, { passive: true });
+})();
