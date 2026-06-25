@@ -461,11 +461,13 @@ section{padding-block:clamp(64px,8vw,128px)}
 .nav .nav-links a:hover,.nav .nav-links a.active{color:#fff}
 .nav .nav-links a::after{background:#fff}
 .nav .nav-toggle span{background:#fff}
-/* logo wyśrodkowane na desktopie (konwencja restauracyjna), linki po prawej */
+/* logo wyśrodkowane NAD linkami = dwurzędowy nav restauracyjny (desktop). Fizycznie nie ma jak się nałożyć (osobne rzędy). */
 @media(min-width:861px){
-  .nav-inner{position:relative}
-  .nav .brand{position:absolute;left:50%;transform:translateX(-50%);align-items:center;text-align:center}
-  .nav .nav-links{margin-left:auto}
+  .nav .nav-inner{flex-direction:column;height:auto;gap:9px;padding-block:15px;justify-content:center}
+  .nav .brand{align-items:center;text-align:center}
+  .nav .nav-links{margin-left:0;justify-content:center}
+  .nav .nav-toggle{display:none}
+  .nav.is-stuck .nav-inner{padding-block:9px;gap:6px}
 }
 /* po scrollu: lity cream + ciemny tekst (jak reszta) */
 .nav.is-stuck{background:color-mix(in srgb,var(--paper) 93%,transparent);backdrop-filter:saturate(140%) blur(10px);border-bottom:var(--hairline)}
