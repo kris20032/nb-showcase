@@ -428,3 +428,22 @@ section{padding-block:clamp(64px,8vw,128px)}
   .sr-call{background:var(--paper);color:var(--ink);padding-inline:22px}
   body{padding-bottom:56px}
 }
+
+/* ============================================================
+   FAZA 3 - OSOBNY UKŁAD GASTRO: pełnoekranowe immersyjne hero (zamiast wspólnego hero-cine),
+   BEZ ciemnego paska-faktów. Inny KSZTAŁT pierwszego wrażenia niż rodzina fachowcy/dom/auto.
+   ============================================================ */
+.hero-gastro{position:relative;min-height:92vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;isolation:isolate}
+.hero-gastro .hg-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;animation:hgKen 26s ease-out infinite alternate}
+@keyframes hgKen{from{transform:scale(1.06)}to{transform:scale(1.14)}}
+.hero-gastro .hg-veil{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(22,13,8,.52) 0%,rgba(22,13,8,.34) 42%,rgba(22,13,8,.74) 100%)}
+.hg-inner{max-width:54rem;padding:0 24px;color:#fff}
+.hg-eyebrow{display:block;font-size:.78rem;letter-spacing:.34em;text-transform:uppercase;font-weight:600;color:rgba(255,255,255,.85);margin-bottom:var(--space-5)}
+.hg-title{font-family:var(--font-display);font-weight:600;font-size:clamp(2.7rem,8vw,5.6rem);line-height:1.02;letter-spacing:.005em;text-shadow:0 2px 34px rgba(0,0,0,.4)}
+.hg-tag{max-width:42ch;margin:var(--space-5) auto 0;font-size:1.12rem;line-height:1.6;color:rgba(255,255,255,.92)}
+.hg-cta{margin-top:var(--space-7)}
+.hg-meta{margin-top:var(--space-6);font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.82)}
+.hg-scroll{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.85);font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:9px}
+.hg-scroll::after{content:"";width:1px;height:34px;background:linear-gradient(rgba(255,255,255,.75),transparent);animation:hgPulse 2s ease-in-out infinite}
+@keyframes hgPulse{0%,100%{opacity:.3}50%{opacity:1}}
+@media(max-width:640px){.hero-gastro{min-height:86vh}.hg-title{font-size:clamp(2.3rem,11vw,3.4rem)}}
