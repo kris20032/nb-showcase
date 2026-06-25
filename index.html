@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Beginning - strony dopasowane do Twojej branży</title>
+<meta name="description" content="Zobacz, jak może wyglądać strona w Twojej branży. Przykładowe realizacje - po jednej z każdej branży, każda w innym, dopasowanym stylu.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#101013; --bg-2:#17171b; --ink:#f3f1ec; --muted:#a7a39c;
+    --line:rgba(255,255,255,.10); --accent:#c8a04a;
+    --font-d:'Fraunces',Georgia,serif; --font-b:'Hanken Grotesk',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--font-b);line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+  header{padding:80px 0 16px;text-align:center}
+  .brand{font-family:var(--font-d);font-weight:600;letter-spacing:.02em;font-size:1.05rem;color:var(--accent)}
+  h1{font-family:var(--font-d);font-weight:600;font-size:clamp(2.1rem,5vw,3.4rem);line-height:1.1;margin:18px auto 0;max-width:16ch}
+  .sub{color:var(--muted);max-width:54ch;margin:20px auto 0;font-size:1.05rem}
+  .tag{display:inline-block;margin-top:26px;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:2px;padding:7px 14px}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;padding:56px 0 24px}
+  @media(max-width:880px){.grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.grid{grid-template-columns:1fr}}
+  .card{display:flex;flex-direction:column;background:var(--bg-2);border:1px solid var(--line);border-radius:4px;overflow:hidden;text-decoration:none;color:inherit;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-5px);border-color:var(--accent)}
+  .thumb{aspect-ratio:16/10;overflow:hidden;background:#000}
+  .thumb img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease;opacity:.92}
+  .card:hover .thumb img{transform:scale(1.05);opacity:1}
+  .body{padding:20px 22px 24px;display:flex;flex-direction:column;gap:7px;flex:1}
+  .eyebrow{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:600}
+  .name{font-family:var(--font-d);font-weight:600;font-size:1.32rem;line-height:1.15}
+  .who{color:var(--muted);font-size:.93rem}
+  .go{margin-top:auto;padding-top:12px;font-weight:600;font-size:.9rem;color:var(--ink)}
+  .go .arr{color:var(--accent);transition:transform .25s ease;display:inline-block}
+  .card:hover .go .arr{transform:translateX(5px)}
+  footer{border-top:1px solid var(--line);margin-top:40px;padding:34px 0 70px;text-align:center;color:var(--muted);font-size:.88rem}
+  footer b{color:var(--ink);font-weight:600}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="brand">New Beginning</div>
+    <h1>Zobacz, jak może wyglądać strona w Twojej branży</h1>
+    <p class="sub">Każda branża rządzi się swoimi prawami - inaczej sprzedaje restauracja, inaczej dentysta, a inaczej studio tatuażu. Poniżej po jednym przykładzie z każdej branży, każdy w osobnym, dopasowanym stylu.</p>
+    <span class="tag">Przykładowe realizacje - kliknij, żeby wejść</span>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="grid">
+
+    <a class="card" href="./hydraulik/index.html">
+      <div class="thumb"><img src="./hydraulik/img/hero.jpg" alt="AquaFix Hydraulika"></div>
+      <div class="body">
+        <span class="eyebrow">Fachowcy</span>
+        <div class="name">AquaFix Hydraulika</div>
+        <div class="who">Hydraulik, elektryk, ekipa remontowa, brukarz, dekarz</div>
+        <div class="go">Zobacz stronę <span class="arr">&rarr;</span></div>
+      </div>
+    </a>
+
+    <a class="card" href="./meble/index.html">
+      <div class="thumb"><img src="./meble/img/hero.jpg" alt="Dębowy Detal - Meble na Wymiar"></div>
+      <div class="body">
+        <span class="eyebrow">Rzemiosło</span>
+        <div class="name">Dębowy Detal</div>
+        <div class="who">Meble na wymiar, stolarz, kamieniarz, blaty</div>
+        <div class="go">Zobacz stronę <span class="arr">&rarr;</span></div>
+      </div>
+    </a>
+
+    <a class="card" href="./dentysta/index.html">
+      <div class="thumb"><img src="./dentysta/img/hero.jpg" alt="Dentevia Centrum Stomatologii"></div>
+      <div class="body">
+        <span class="eyebrow">Gabinet / Klinika</span>
+        <div class="name">Dentevia</div>
+        <div class="who">Dentysta, gabinet lekarski, weterynarz, fizjoterapia</div>
+        <div class="go">Zobacz stronę <span class="arr">&rarr;</span></div>
+      </div>
+    </a>
+
+    <a class="card" href="./beauty/index.html">
+      <div class="thumb"><img src="./beauty/img/hero.jpg" alt="Lumea Beauty Studio"></div>
+      <div class="body">
+        <span class="eyebrow">Beauty &amp; Spa</span>
+        <div class="name">Lumea Beauty Studio</div>
+        <div class="who">Salon beauty, spa, head spa, kosmetologia, masaż</div>
+        <div class="go">Zobacz stronę <span class="arr">&rarr;</span></div>
+      </div>
+    </a>
+
+    <a class="card" href="./restauracja/index.html">
+      <div class="thumb"><img src="./restauracja/img/hero.jpg" alt="Stół Numer 7"></div>
+      <div class="body">
+        <span class="eyebrow">Gastronomia</span>
+        <div class="name">Stół Numer 7</div>
+        <div class="who">Restauracja, kawiarnia, bar, pizzeria</div>
+        <div class="go">Zobacz stronę <span class="arr">&rarr;</span></div>
+      </div>
+    </a>
+
+    <a class="card" href="./detailing/index.html">
+      <div class="thumb"><img src="./detailing/img/hero.jpg" alt="Lustro Studio Detailingu"></div>
+      <div class="body">
+        <span class="eyebrow">Auto</span>
+        <div class="name">Lustro - Studio Detailingu</div>
+        <div class="who">Detailing, auto-serwis, powłoki, lakiernictwo</div>
+        <div class="go">Zobacz stronę <span class="arr">&rarr;</span></div>
+      </div>
+    </a>
+
+    <a class="card" href="./okna/index.html">
+      <div class="thumb"><img src="./okna/img/hero.jpg" alt="OknoDom Stolarka Otworowa"></div>
+      <div class="body">
+        <span class="eyebrow">Dom</span>
+        <div class="name">OknoDom</div>
+        <div class="who">Okna, drzwi, bramy, zadaszenia, stolarka otworowa</div>
+        <div class="go">Zobacz stronę <span class="arr">&rarr;</span></div>
+      </div>
+    </a>
+
+    <a class="card" href="./tatuaz/index.html">
+      <div class="thumb"><img src="./tatuaz/img/hero.jpg" alt="Czarna Owca Tattoo"></div>
+      <div class="body">
+        <span class="eyebrow">Studio</span>
+        <div class="name">Czarna Owca Tattoo</div>
+        <div class="who">Studio tatuażu, piercing</div>
+        <div class="go">Zobacz stronę <span class="arr">&rarr;</span></div>
+      </div>
+    </a>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>To <b>przykładowe realizacje</b> - pokazują styl i możliwości. Twoją stronę robimy pod <b>Twoją firmę</b>: realne zdjęcia, dane i nazwa.</p>
+    <p style="margin-top:10px">Projekt i realizacja: <b>New Beginning</b></p>
+  </div>
+</footer>
+</body>
+</html>
