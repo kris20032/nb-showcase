@@ -436,14 +436,44 @@ section{padding-block:clamp(64px,8vw,128px)}
 .hero-gastro{position:relative;min-height:92vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;isolation:isolate}
 .hero-gastro .hg-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;animation:hgKen 26s ease-out infinite alternate}
 @keyframes hgKen{from{transform:scale(1.06)}to{transform:scale(1.14)}}
-.hero-gastro .hg-veil{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(22,13,8,.52) 0%,rgba(22,13,8,.34) 42%,rgba(22,13,8,.74) 100%)}
+/* SCRIM = gwarancja kontrastu (zasada: tekst na zdjęciu NIGDY nie liczy na to, że zdjęcie jest ciemne).
+   Radial skupiony za napisem (mocniejszy w środku) + bazowy gradient - biały tekst czyta się na DOWOLNYM zdjęciu. */
+.hero-gastro .hg-veil{position:absolute;inset:0;z-index:-1;
+  background:radial-gradient(125% 95% at 50% 46%,rgba(12,9,6,.64) 0%,rgba(12,9,6,.40) 52%,rgba(12,9,6,.20) 100%),
+             linear-gradient(180deg,rgba(12,9,6,.50) 0%,rgba(12,9,6,.30) 44%,rgba(12,9,6,.74) 100%)}
 .hg-inner{max-width:54rem;padding:0 24px;color:#fff}
-.hg-eyebrow{display:block;font-size:.78rem;letter-spacing:.34em;text-transform:uppercase;font-weight:600;color:rgba(255,255,255,.85);margin-bottom:var(--space-5)}
-.hg-title{font-family:var(--font-display);font-weight:600;font-size:clamp(2.7rem,8vw,5.6rem);line-height:1.02;letter-spacing:.005em;text-shadow:0 2px 34px rgba(0,0,0,.4)}
-.hg-tag{max-width:42ch;margin:var(--space-5) auto 0;font-size:1.12rem;line-height:1.6;color:rgba(255,255,255,.92)}
+.hg-eyebrow{display:block;font-size:.78rem;letter-spacing:.34em;text-transform:uppercase;font-weight:600;color:#fff;margin-bottom:var(--space-5);text-shadow:0 1px 10px rgba(0,0,0,.5)}
+.hg-title{color:#fff;font-family:var(--font-display);font-weight:600;font-size:clamp(2.7rem,8vw,5.6rem);line-height:1.02;letter-spacing:.005em;text-shadow:0 2px 24px rgba(0,0,0,.55),0 1px 2px rgba(0,0,0,.5)}
+.hg-tag{max-width:42ch;margin:var(--space-5) auto 0;font-size:1.12rem;line-height:1.6;color:rgba(255,255,255,.95);text-shadow:0 1px 12px rgba(0,0,0,.55)}
 .hg-cta{margin-top:var(--space-7)}
-.hg-meta{margin-top:var(--space-6);font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.82)}
+.hg-meta{margin-top:var(--space-6);font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;color:#fff;text-shadow:0 1px 10px rgba(0,0,0,.5)}
 .hg-scroll{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.85);font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:9px}
 .hg-scroll::after{content:"";width:1px;height:34px;background:linear-gradient(rgba(255,255,255,.75),transparent);animation:hgPulse 2s ease-in-out infinite}
 @keyframes hgPulse{0%,100%{opacity:.3}50%{opacity:1}}
 @media(max-width:640px){.hero-gastro{min-height:86vh}.hg-title{font-size:clamp(2.3rem,11vw,3.4rem)}}
+
+/* --- NAWIGACJA GASTRO: przezroczysta NAD ciemnym hero/pageheadem (białe napisy), lita po scrollu (is-stuck z base.js).
+   Bezpieczne na wszystkich podstronach, bo każda ma ciemny header (hero 92vh / pagehead 46vh z przyciemnieniem). --- */
+.nav{position:fixed;left:0;right:0;background:linear-gradient(180deg,rgba(10,7,5,.38) 0%,rgba(10,7,5,0) 100%);backdrop-filter:none;border-bottom:1px solid transparent}
+.nav .brand .name{color:#fff}
+.nav .brand .sub{color:rgba(255,255,255,.74)}
+.nav .nav-links a{color:rgba(255,255,255,.92)}
+.nav .nav-links a:hover,.nav .nav-links a.active{color:#fff}
+.nav .nav-links a::after{background:#fff}
+.nav .nav-toggle span{background:#fff}
+/* logo wyśrodkowane na desktopie (konwencja restauracyjna), linki po prawej */
+@media(min-width:861px){
+  .nav-inner{position:relative}
+  .nav .brand{position:absolute;left:50%;transform:translateX(-50%);align-items:center;text-align:center}
+  .nav .nav-links{margin-left:auto}
+}
+/* po scrollu: lity cream + ciemny tekst (jak reszta) */
+.nav.is-stuck{background:color-mix(in srgb,var(--paper) 93%,transparent);backdrop-filter:saturate(140%) blur(10px);border-bottom:var(--hairline)}
+.nav.is-stuck .brand .name{color:var(--ink)}
+.nav.is-stuck .brand .sub{color:var(--muted)}
+.nav.is-stuck .nav-links a{color:var(--ink-soft)}
+.nav.is-stuck .nav-links a:hover,.nav.is-stuck .nav-links a.active{color:var(--ink)}
+.nav.is-stuck .nav-links a::after{background:var(--accent)}
+.nav.is-stuck .nav-toggle span{background:var(--ink)}
+/* przycisk rezerwacji zostaje akcentowy zawsze (czytelny na obu tłach) */
+.nav .nav-links a.btn-accent{color:#fff}
