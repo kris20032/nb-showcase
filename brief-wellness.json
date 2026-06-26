@@ -1,0 +1,8 @@
+{
+  "voucher": "Zaskocz kogoś bliskiego - elegancki bon na dowolny zabieg, do wykorzystania w dogodnym terminie.",
+  "zespol": [
+    {"imie": "Anna Lewandowska", "rola": "Kosmetolog", "bio": "Pielęgnacja twarzy i terapie przeciwstarzeniowe."},
+    {"imie": "Marta Kowal", "rola": "Specjalistka SPA", "bio": "Masaż i rytuały relaksacyjne dla ciała."},
+    {"imie": "Julia Nowak", "rola": "Stylistka brwi i rzęs", "bio": "Stylizacja brwi, laminacja i przedłużanie rzęs."}
+  ]
+}

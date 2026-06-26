@@ -145,7 +145,7 @@ p{max-width:65ch}
 .hero-badge span{font-size:var(--text-sm);color:var(--muted)}
 
 /* ---------- HERO duży / kinowy (strona główna) ---------- */
-.hero-cine{position:relative;min-height:clamp(560px,82vh,840px);display:flex;align-items:center;overflow:hidden;border-bottom:var(--hairline)}
+.hero-cine{position:relative;min-height:clamp(560px,82vh,840px);min-height:clamp(560px,82svh,840px);display:flex;align-items:center;overflow:hidden;border-bottom:var(--hairline)}
 .hero-cine>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
 .hero-cine::after{content:"";position:absolute;inset:0;z-index:1;
   background:linear-gradient(95deg,rgba(13,18,23,.86) 0%,rgba(13,18,23,.64) 32%,rgba(13,18,23,.24) 62%,rgba(13,18,23,.04) 100%)}
@@ -157,13 +157,13 @@ p{max-width:65ch}
 .hero-cine .lead{color:rgba(255,255,255,.92);max-width:48ch;margin-bottom:var(--space-7)}
 .hero-cine .hero-actions{display:flex;flex-wrap:wrap;gap:var(--space-4)}
 @media(max-width:680px){
-  .hero-cine{min-height:clamp(520px,76vh,640px);align-items:flex-end}
+  .hero-cine{min-height:clamp(520px,76vh,640px);min-height:clamp(520px,76svh,640px);align-items:flex-end}
   .hero-cine::after{background:linear-gradient(0deg,rgba(13,18,23,.9) 6%,rgba(13,18,23,.45) 55%,rgba(13,18,23,.25) 100%)}
   .hero-cine .wrap{padding-bottom:var(--space-9)}
 }
 
 /* full-bleed hero variant (podstrony) */
-.pagehead{position:relative;min-height:46vh;display:flex;align-items:flex-end;overflow:hidden;border-bottom:var(--hairline)}
+.pagehead{position:relative;min-height:46vh;min-height:46svh;display:flex;align-items:flex-end;overflow:hidden;border-bottom:var(--hairline)}
 .pagehead img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .pagehead::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,24,28,.25),rgba(18,24,28,.62))}
 .pagehead .wrap{position:relative;z-index:2;padding-block:var(--space-9);color:#fff}
@@ -343,11 +343,19 @@ section{padding-block:clamp(64px,8vw,128px)}
 .gallery .reveal:nth-child(5){transition-delay:.28s}
 .gallery .reveal:nth-child(6){transition-delay:.35s}
 
-/* 2) Hero — powolny „oddech kadru" (Ken Burns), tylko desktop (bateria) */
-@keyframes heroBreath{from{transform:scale(1.06)}to{transform:scale(1.12) translateY(-1.2%)}}
-@media(min-width:900px){
-  .hero-cine>img{transform:scale(1.06);animation:heroBreath 24s ease-in-out infinite alternate}
-}
+/* 2) Hero STATYCZNY na .hero-cine — Ken Burns CAŁKIEM WYŁĄCZONY 26.06 (3. zgłoszenie Szymona).
+   GENEZA: animowanie scale na <img> hero z teksturami (cegły/framugi) re-samplinguje obraz
+   klatka po klatce → na części ekranów drobne drganie/shimmer = „heroshot się trzęsie".
+   translateY usunięto wcześniej, scale-only + will-change/GPU NIE wystarczyły do GWARANCJI gładkości.
+   Krzysztof zażądał pewności („make sure, że błąd się nie pojawi") > efekt. Zero animacji = 0% drgania.
+   Delikatny zoom zostaje TYLKO w pełnoekranowych hero gastro/studio (hg-bg/hs-bg — tło, inny
+   mechanizm, chwalone, nigdy nie zgłaszane). NIE wracać do KB na .hero-cine bez realnego testu
+   na sprzęcie klienta — to ryzyko regresji „trzęsienia”. */
+/* BEZPIECZNY "wow" na hero = jednorazowy FADE-IN (opacity), nie zoom.
+   opacity nie dotyka bitmapy → gładkie na KAŻDYM zdjęciu/ekranie/GPU, zero ryzyka migotania.
+   Geometryczny ruch (scale/translate) na .hero-cine jest ZAKAZANY (bramka pilnuje). */
+@keyframes heroFade{from{opacity:0}to{opacity:1}}
+.hero-cine>img{transform:none;animation:heroFade 1.1s ease-out both}
 
 /* 3) Akcentowy hairline pod nagłówkiem sekcji, który „rysuje się" przy wejściu */
 .head h2{position:relative;padding-bottom:18px}
@@ -434,3 +442,100 @@ section{padding-block:clamp(64px,8vw,128px)}
   .sr-call{width:60px;background:var(--paper);color:var(--ink);font-size:1.15rem;border-left:1px solid var(--line)}
   body{padding-bottom:56px}
 }
+
+/* ============================================================
+   FAZA 3 - OSOBNY UKŁAD WELLNESS (research wf_840d7930 + krytyka z policzonym WCAG). Doklejane na wierzch.
+   Tożsamość: SPOKÓJ / ODDECH / ZMYSŁOWOŚĆ - jasno, miękko, editorialowo. Przeciwieństwo techniki DOM i dramatu AUTO.
+   ============================================================ */
+
+/* --- P0 KONTRAST (krytyka policzyła WCAG na skórkach): naprawy, bo predeploy NIE testuje kontrastu --- */
+/* CTA na akcencie: spa złoto #B0894B + biel = 3.22 FAIL -> tło accent-d (ciemniejsze) = PASS */
+.btn-accent{background:var(--accent-d);border-color:var(--accent-d);color:#fff}
+.btn-accent:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.sticky-reserve .sr-book{background:var(--accent-d);color:#fff}
+/* eyebrow TEKST = ink-soft (akcent jako tekst na cream pada 2.5-2.9); kreska ::before zostaje akcentowa (dekoracja) */
+.eyebrow{color:var(--ink-soft)}
+.eyebrow::before{background:var(--accent)}
+/* opisy mutedem na paper-2 padają (2.8-2.9) -> ink-soft */
+.menu-cat p,.menu-note,.doc-bio,.cn-desc,.ryt-copy p{color:var(--ink-soft)}
+
+/* --- Miękkie krzywizny: cap 16px (nie 22 = "karta z apki"); delikatny hover (bez ostrego lift) --- */
+.svc,.trust-card,.tile,.gateway,.split-art,.svc-row-art,.doc,.hs-fig,.ph-fig{border-radius:16px}
+.doc:hover{transform:translateY(-3px);box-shadow:var(--sh-sm)}
+section{padding-block:clamp(74px,10vh,124px)}   /* nieco więcej oddechu niż reszta rodzin */
+
+/* --- NAV WELLNESS: jasny-cream półprzezroczysty, fixed, ink-soft linki, pill-CTA accent-d, NIE zwijany --- */
+.nav{position:fixed;left:0;right:0;background:color-mix(in srgb,var(--paper) 88%,transparent);
+  backdrop-filter:saturate(130%) blur(10px);border-bottom:1px solid transparent;transition:background .4s ease,box-shadow .4s ease}
+.nav-inner{height:80px}                          /* wyższy = spokojniejszy (sygnatura wellness) */
+.nav.is-stuck{background:color-mix(in srgb,var(--paper) 96%,transparent);
+  border-bottom:1px solid color-mix(in srgb,var(--accent) 22%,transparent);box-shadow:0 10px 30px -26px rgba(0,0,0,.3)}
+.nav.is-stuck .nav-inner{height:64px}
+.nav .nav-links a.btn-accent{border-radius:999px;background:var(--accent-d);color:#fff;border:1px solid var(--accent-d);padding:var(--space-3) var(--space-6)}
+.nav .nav-links a.btn-accent:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* === HERO WELLNESS: editorial SPLIT na bieli, zdjęcie OPRAWIONE (offset passe-partout), STATYCZNE (bez Ken Burns) === */
+.hero-spa{position:relative;background:var(--paper);padding-top:clamp(6.5rem,12vh,9rem);padding-bottom:clamp(3rem,8vh,6rem)}
+.hero-spa .wrap{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(2rem,5vw,5rem);align-items:center}
+.hs-copy{max-width:46ch}
+.hs-claim{font-family:var(--font-display);font-weight:500;line-height:1.06;letter-spacing:-.005em;
+  font-size:clamp(2.3rem,1.7rem+3vw,3.9rem);color:var(--ink);margin:var(--space-4) 0 var(--space-5)}
+.hs-lead{color:var(--ink-soft);font-size:var(--text-lg);line-height:1.6;max-width:44ch;margin-bottom:var(--space-7)}
+.hs-cta{border-radius:999px}
+.hs-rating{margin-top:var(--space-5);color:var(--ink-soft);font-weight:600;letter-spacing:.01em;font-size:var(--text-sm)}
+.hs-fig{position:relative;aspect-ratio:4/5;border-radius:16px;overflow:hidden;box-shadow:var(--sh-lg);isolation:isolate}
+.hs-fig img{width:100%;height:100%;object-fit:cover;display:block}   /* hero = EAGER (bez lazy), STATYCZNE - bez animacji scale */
+.hs-fig::after{content:"";position:absolute;inset:0;border:1px solid rgba(255,255,255,.5);border-radius:16px;pointer-events:none} /* delikatne passe-partout wewnątrz */
+.hero-spa::before{content:"";position:absolute;right:clamp(1rem,4vw,3rem);top:clamp(5.5rem,11vh,8rem);bottom:clamp(2.5rem,7vh,5rem);
+  width:min(38%,30rem);border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);border-radius:16px;transform:translate(14px,14px);z-index:0;pointer-events:none} /* offsetowa ramka „matted print" za zdjęciem - sygnatura, nie zwykły split */
+.hero-spa .wrap{position:relative;z-index:1}
+@media(max-width:860px){
+  .hero-spa .wrap{grid-template-columns:1fr;gap:var(--space-7)}
+  .hs-fig{aspect-ratio:5/4;order:-1}
+  .hero-spa::before{display:none}                /* offset-ramka tylko desktop (anty horizontal-scroll na mobile) */
+}
+
+/* === RYTUAŁ: naprzemienne editorialowe wiersze (zdjęcie + duży serif-numerał), hairline między - WŁASNY układ === */
+.ryt-list{margin-top:var(--space-8);display:flex;flex-direction:column}
+.ryt-row{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.6rem,4vw,4rem);align-items:center;
+  padding-block:clamp(2rem,4vh,3.2rem);border-top:1px solid var(--line)}
+.ryt-row:last-child{border-bottom:1px solid var(--line)}
+.ryt-row:nth-child(even) .ryt-fig{order:2}        /* naprzemienność: zdjęcie raz lewo raz prawo */
+.ryt-fig{margin:0;aspect-ratio:5/4;border-radius:16px;overflow:hidden;background:var(--paper-2)}
+.ryt-fig img{width:100%;height:100%;object-fit:cover}
+.ryt-no{display:block;font-family:var(--font-display);font-weight:500;font-size:clamp(2.4rem,4vw,3.6rem);
+  line-height:1;color:var(--accent);opacity:.55;margin-bottom:var(--space-3)}
+.ryt-copy h3{font-family:var(--font-display);font-weight:500;font-size:clamp(1.4rem,2.4vw,1.9rem);letter-spacing:-.01em;margin-bottom:var(--space-3)}
+.ryt-copy p{font-size:var(--text-base);line-height:1.65;max-width:42ch}
+@media(max-width:760px){.ryt-row{grid-template-columns:1fr;gap:var(--space-5)}.ryt-row .ryt-fig{order:-1!important}}
+
+/* === CENNIK WELLNESS: editorialowa LISTA zabiegów (wiersze hairline), NIE siatka gastro === */
+.cennik{max-width:60rem;margin:var(--space-8) auto 0;display:flex;flex-direction:column}
+.cennik-row{display:grid;grid-template-columns:minmax(12rem,1fr) 1.6fr;gap:clamp(1rem,3vw,3rem);
+  padding-block:var(--space-5);border-top:1px solid var(--line);align-items:baseline}
+.cennik-row:last-child{border-bottom:1px solid var(--line)}
+.cn-name h3{font-family:var(--font-display);font-weight:500;font-size:1.3rem;letter-spacing:-.005em;line-height:1.2}
+.cn-desc{color:var(--ink-soft);font-size:var(--text-base);line-height:1.6}
+@media(max-width:680px){.cennik-row{grid-template-columns:1fr;gap:var(--space-2)}}
+
+/* === PAGEHEAD JASNY (wellness): cream + ink + zdjęcie oprawione (reset ciemnego base .pagehead) === */
+.pagehead-soft{min-height:0;overflow:visible;background:var(--paper);border-bottom:1px solid var(--line);
+  padding-top:clamp(7rem,12vh,9.5rem);padding-bottom:clamp(2.5rem,6vh,4.5rem);display:block}
+.pagehead-soft::after{display:none}
+.pagehead-soft .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,4.5rem);
+  align-items:center;color:var(--ink);padding-block:0}
+.pagehead-soft h1{color:var(--ink);font-family:var(--font-display);font-weight:500;letter-spacing:-.01em;max-width:16ch}
+.pagehead-soft .eyebrow{color:var(--ink-soft)}
+.pagehead-soft .eyebrow::before{background:var(--accent)}
+.pagehead-soft p{color:var(--ink-soft);margin-top:var(--space-4);max-width:46ch}
+.pagehead-soft .ph-fig{margin:0;aspect-ratio:4/3;border-radius:16px;overflow:hidden;box-shadow:var(--sh-md)}
+.pagehead-soft .ph-fig img{width:100%;height:100%;object-fit:cover}
+@media(max-width:860px){.pagehead-soft .wrap{grid-template-columns:1fr}.pagehead-soft .ph-fig{order:-1;aspect-ratio:16/10}}
+
+/* === VOUCHER: miękki blush-band (JEDEN akcentowy band na stronie, nie co druga sekcja) === */
+.voucher{background:color-mix(in srgb,var(--accent) 9%,var(--paper));text-align:center}
+.voucher h2{font-family:var(--font-display);font-weight:500}
+.voucher .wrap{max-width:52rem}
+
+/* === RYTM TŁA: cennik wraca na cream (nie paper-2), żeby blush-voucher był jedynym akcentem === */
+.menu-sec{background:var(--paper)}
