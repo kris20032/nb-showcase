@@ -145,7 +145,7 @@ p{max-width:65ch}
 .hero-badge span{font-size:var(--text-sm);color:var(--muted)}
 
 /* ---------- HERO duży / kinowy (strona główna) ---------- */
-.hero-cine{position:relative;min-height:clamp(560px,82vh,840px);display:flex;align-items:center;overflow:hidden;border-bottom:var(--hairline)}
+.hero-cine{position:relative;min-height:clamp(560px,82vh,840px);min-height:clamp(560px,82svh,840px);display:flex;align-items:center;overflow:hidden;border-bottom:var(--hairline)}
 .hero-cine>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
 .hero-cine::after{content:"";position:absolute;inset:0;z-index:1;
   background:linear-gradient(95deg,rgba(13,18,23,.86) 0%,rgba(13,18,23,.64) 32%,rgba(13,18,23,.24) 62%,rgba(13,18,23,.04) 100%)}
@@ -157,13 +157,13 @@ p{max-width:65ch}
 .hero-cine .lead{color:rgba(255,255,255,.92);max-width:48ch;margin-bottom:var(--space-7)}
 .hero-cine .hero-actions{display:flex;flex-wrap:wrap;gap:var(--space-4)}
 @media(max-width:680px){
-  .hero-cine{min-height:clamp(520px,76vh,640px);align-items:flex-end}
+  .hero-cine{min-height:clamp(520px,76vh,640px);min-height:clamp(520px,76svh,640px);align-items:flex-end}
   .hero-cine::after{background:linear-gradient(0deg,rgba(13,18,23,.9) 6%,rgba(13,18,23,.45) 55%,rgba(13,18,23,.25) 100%)}
   .hero-cine .wrap{padding-bottom:var(--space-9)}
 }
 
 /* full-bleed hero variant (podstrony) */
-.pagehead{position:relative;min-height:46vh;display:flex;align-items:flex-end;overflow:hidden;border-bottom:var(--hairline)}
+.pagehead{position:relative;min-height:46vh;min-height:46svh;display:flex;align-items:flex-end;overflow:hidden;border-bottom:var(--hairline)}
 .pagehead img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .pagehead::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,24,28,.25),rgba(18,24,28,.62))}
 .pagehead .wrap{position:relative;z-index:2;padding-block:var(--space-9);color:#fff}
@@ -343,10 +343,15 @@ section{padding-block:clamp(64px,8vw,128px)}
 .gallery .reveal:nth-child(5){transition-delay:.28s}
 .gallery .reveal:nth-child(6){transition-delay:.35s}
 
-/* 2) Hero — powolny „oddech kadru" (Ken Burns), tylko desktop (bateria) */
-@keyframes heroBreath{from{transform:scale(1.06)}to{transform:scale(1.12) translateY(-1.2%)}}
+/* 2) Hero — Ken Burns POPRAWNY (czysty powolny zoom od środka, BEZ translateY).
+   Historia 26.06: stary wariant miał translateY(-1.2%) → widoczny dryf GÓRA-DÓŁ
+   = skarga „hero lata/rusza się". Poprawny KB (jak działające gastro/studio):
+   sam scale, transform-origin center, wolno, desktop-only, respektuje reduced-motion.
+   ZASADA: Ken Burns = TYLKO scale (zoom). Nigdy translateY/translateX w pętli hero. */
+@keyframes heroBreath{from{transform:scale(1.05)}to{transform:scale(1.12)}}
 @media(min-width:900px){
-  .hero-cine>img{transform:scale(1.06);animation:heroBreath 24s ease-in-out infinite alternate}
+  .hero-cine>img{transform-origin:center;will-change:transform;backface-visibility:hidden;
+    animation:heroBreath 30s ease-out infinite alternate}
 }
 
 /* 3) Akcentowy hairline pod nagłówkiem sekcji, który „rysuje się" przy wejściu */
@@ -395,7 +400,10 @@ section{padding-block:clamp(64px,8vw,128px)}
    RODZINA: AUTO (detailing / auto-serwis / powłoki / lakiernictwo / myjnia)
    Doklejane NA WIERZCH base.css. Skin auto (Oswald + grafit/bursztyn).
    Filozofia: PREMIUM, MĘSKO, TECHNICZNIE + "Umów termin". Jasna baza, ciemne kinowe hero, Oswald CAPS.
-   (Świadomie BEZ ciemnej bazy - dark-skin guard wymusza jasne tło; ciemne hero+paski daja dramat. Before/after = v2.)
+   (Świadomie BEZ ciemnej bazy - dark-skin guard wymusza jasne tło; ciemne hero+paski daja dramat.)
+   FAZA 3 (research wf_5b470404, topowe studia detailingu/powłok): osobny układ - hero-auto (kicker+claim+1 CTA),
+   nav fixed przezroczysty->ciemny grafit + zwijany, spec-ribbon (sygnatura), pakiety powłok (1 ciemny band),
+   before/after suwak, poziomy "bay" proces, marki. Pakiety/before-after/marki = BRAMKOWANE (tylko z reconu).
    ============================================================ */
 
 /* --- Wersaliki na nagłówkach sekcji (motorsport/inżynierski sznyt) --- */
@@ -415,3 +423,138 @@ section{padding-block:clamp(64px,8vw,128px)}
   .sr-call{width:60px;background:var(--paper);color:var(--ink);font-size:1.15rem;border-left:1px solid var(--line)}
   body{padding-bottom:56px}
 }
+
+/* ============================================================
+   FAZA 3 - OSOBNY UKŁAD AUTO (detailing/powłoki). Wszystko poniżej doklejane na wierzch.
+   ============================================================ */
+
+/* --- Brass = ciemny tekst dla kontrastu (mosiądz #c8a04a + biel = za słaby kontrast) --- */
+.btn-accent{color:#14171c}
+.btn-accent:hover{color:#14171c}
+
+/* === HERO AUTO: pełnoekranowe ciemne kino, blok dolny-lewy, Ken Burns, kontrast gwarantowany === */
+.hero-auto{position:relative;height:100vh;height:100svh;min-height:560px;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate;background:#0a0c0f}
+.hero-auto .ha-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;will-change:transform}
+/* Ken Burns = TYLKO scale (zero translate = zero dryfu), DESKTOP-only (min-width:900) - zgodnie z konwencją base.css heroBreath, anty-jank na mobile */
+@keyframes haKen{from{transform:scale(1.04)}to{transform:scale(1.12)}}
+@media(min-width:900px){.hero-auto .ha-bg{animation:haKen 30s ease-out infinite alternate}}
+/* Kontrast GWARANTOWANY niezależnie od zdjęcia: (a) ciemna LEWA kolumna pod tekstem (tekst jest do lewej, top->bottom),
+   (b) górny scrim pod nav + dolny scrim. Nie liczymy na ciemne zdjęcie. */
+.hero-auto .ha-veil{position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(90deg,rgba(10,12,15,.76) 0%,rgba(10,12,15,.34) 32%,rgba(10,12,15,0) 60%),
+             linear-gradient(180deg,rgba(10,12,15,.42) 0%,rgba(10,12,15,0) 30%,rgba(10,12,15,.55) 78%,rgba(10,12,15,.82) 100%)}
+.ha-inner{position:relative;z-index:2;margin:0 0 clamp(2.6rem,7vh,5rem) clamp(1.4rem,5vw,4rem);max-width:32ch}
+.ha-tick{display:block;width:48px;height:3px;background:var(--accent);margin-bottom:clamp(1rem,2.4vh,1.6rem)}
+.ha-kicker{display:block;font-family:var(--font-display);font-weight:600;text-transform:uppercase;
+  letter-spacing:.22em;font-size:clamp(.72rem,1.4vw,.86rem);color:var(--accent);text-shadow:0 1px 10px rgba(0,0,0,.5)}
+.ha-claim{font-family:var(--font-display);font-weight:700;text-transform:uppercase;letter-spacing:.005em;line-height:1.02;
+  font-size:clamp(2.3rem,5.6vw,4.4rem);color:#fff;margin:clamp(.7rem,1.6vh,1.1rem) 0 clamp(1.5rem,3vh,2.2rem);
+  text-shadow:0 2px 18px rgba(0,0,0,.55)}
+.ha-cta{margin:0}
+.ha-rating{margin:clamp(1rem,2vh,1.4rem) 0 0;color:#fff;font-weight:600;letter-spacing:.02em;font-size:var(--text-sm);opacity:.94;text-shadow:0 1px 10px rgba(0,0,0,.5)}
+@media(max-width:640px){.ha-claim{font-size:clamp(2rem,9vw,2.7rem)}.ha-inner{margin-bottom:clamp(2rem,9vh,3.4rem)}}
+@media(prefers-reduced-motion:reduce){.hero-auto .ha-bg{animation:none}}
+
+/* === NAV AUTO: fixed, przezroczysty nad hero -> lity ciemny grafit po scrollu, zwijany (auto.js) === */
+.nav{position:fixed;left:0;right:0;background:linear-gradient(180deg,rgba(10,12,15,.62) 0%,rgba(10,12,15,.12) 70%,rgba(10,12,15,0) 100%);
+  backdrop-filter:none;border-bottom:1px solid transparent;transition:transform .45s var(--ease),background .4s ease,box-shadow .4s ease}
+.nav.nav-hidden{transform:translateY(-100%)}
+.nav .brand .name{color:#f4f5f7}
+.nav .brand .sub{color:rgba(244,245,247,.72)}
+.nav .nav-links a{color:rgba(244,245,247,.9)}
+.nav .nav-links a:hover,.nav .nav-links a.active{color:#fff}
+.nav .nav-links a::after{background:var(--accent)}
+.nav .nav-toggle span{background:#f4f5f7}
+/* CTA "Umów termin": OBRYS mosiądz nad hero (jedno dominujące CTA = to w hero), wypełnia się po scrollu */
+.nav .nav-links a.btn-accent{background:transparent;border:1px solid var(--accent);color:var(--accent)}
+.nav .nav-links a.btn-accent:hover{background:var(--accent);border-color:var(--accent);color:#14171c}
+/* po scrollu: lity ciemny grafit + jasny tekst + brass solid CTA */
+.nav.is-stuck{background:color-mix(in srgb,var(--ink) 93%,transparent);backdrop-filter:saturate(130%) blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+.nav.is-stuck .brand .name{color:#f4f5f7}
+.nav.is-stuck .brand .sub{color:rgba(244,245,247,.6)}
+.nav.is-stuck .nav-links a{color:rgba(244,245,247,.82)}
+.nav.is-stuck .nav-links a:hover,.nav.is-stuck .nav-links a.active{color:#fff}
+.nav.is-stuck .nav-links a::after{background:var(--accent)}
+.nav.is-stuck .nav-toggle span{background:#f4f5f7}
+.nav.is-stuck .nav-links a.btn-accent{background:var(--accent);border-color:var(--accent);color:#14171c}
+
+/* BUG FIX (krytyka 3a): mobilny panel menu = base ustawia background:var(--paper) (JASNY) -> białe linki znikają.
+   Wymuszamy CIEMNY panel + jasne linki + solid brass CTA. */
+@media(max-width:680px){
+  .nav-links{background:var(--ink)}
+  .nav-links a{color:rgba(244,245,247,.92);border-bottom-color:rgba(255,255,255,.1)}
+  .nav-links a:hover,.nav-links a.active{color:#fff}
+  .nav-links a.btn-accent{background:var(--accent);border-color:var(--accent);color:#14171c}
+  /* długa nazwa nie może wypychać hamburgera poza ekran: skróć i zostaw miejsce na toggle */
+  .nav-inner{gap:var(--space-4)}
+  .brand{min-width:0;flex:1 1 auto}
+  .brand .name{font-size:1.08rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  .nav-toggle{flex:0 0 auto}
+}
+
+/* === SPEC-RIBBON: poziomy pasek etykiet usług tuż pod hero (sygnatura strukturalna, NIE liczby) === */
+.spec-ribbon{background:var(--paper);border-bottom:1px solid var(--line);padding-block:0}
+.spec-ribbon .wrap{padding-block:var(--space-5)}
+.sr-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:clamp(.8rem,2.4vw,2rem);list-style:none;margin:0;padding:0}
+.sr-row li{font-family:var(--font-display);font-weight:600;text-transform:uppercase;letter-spacing:.14em;
+  font-size:clamp(.7rem,1.3vw,.82rem);color:var(--ink-soft);display:flex;align-items:center}
+.sr-row li:not(:last-child)::after{content:"";width:5px;height:5px;border-radius:50%;background:var(--accent);margin-left:clamp(.8rem,2.4vw,2rem)}
+
+/* === PAKIETY POWŁOK: jedyny ciemny carbon-band w jasnej stronie (BRAMKOWANE) === */
+.auto-dark{background:var(--ink)}
+.auto-dark .head h2{color:#fff}
+.auto-dark .head p{color:rgba(244,245,247,.74)}
+.auto-dark .eyebrow{color:var(--accent)}
+.auto-dark .eyebrow::before{background:var(--accent)}
+.pakiety-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-6);margin-top:var(--space-8)}
+.pakiet{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.12);border-radius:var(--r-sm);
+  padding:var(--space-7) var(--space-6);display:flex;flex-direction:column;gap:var(--space-4)}
+.pakiet h3{font-family:var(--font-display);text-transform:uppercase;letter-spacing:.04em;color:#fff;font-size:1.3rem}
+.pak-lata{display:flex;align-items:baseline;gap:.5rem}
+.pak-lata b{font-family:var(--font-display);font-size:2.4rem;line-height:1;color:var(--accent);font-weight:700}
+.pak-lata span{font-size:var(--text-sm);color:rgba(244,245,247,.7);text-transform:uppercase;letter-spacing:.08em}
+.pak-opis{color:rgba(244,245,247,.76);font-size:var(--text-base);line-height:1.6}
+.pak-zakres{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.6rem}
+.pak-zakres li{position:relative;padding-left:1.4rem;padding-bottom:.6rem;color:rgba(244,245,247,.84);
+  font-size:var(--text-sm);border-bottom:1px solid rgba(255,255,255,.08)}
+.pak-zakres li::before{content:"";position:absolute;left:0;top:.55em;width:8px;height:2px;background:var(--accent)}
+.pak-cena{margin-top:auto;font-family:var(--font-display);font-size:1.3rem;color:#fff;letter-spacing:.01em}
+.pak-cta{margin-top:auto;color:var(--accent);font-weight:600;font-size:var(--text-sm);display:inline-flex;align-items:center;gap:.4rem}
+.pak-cta:hover{color:#fff}
+@media(max-width:900px){.pakiety-grid{grid-template-columns:1fr;max-width:32rem;margin-inline:auto}}
+
+/* === BEFORE / AFTER: suwak (JASNE, NIE ciemny band). Oba zdjęcia full-size = ten sam kadr; clip-path odsłania === */
+.auto-ba .ba-slider{position:relative;--ba-pos:50%;max-width:62rem;margin:var(--space-8) auto 0;aspect-ratio:16/9;
+  overflow:hidden;border-radius:var(--r-sm);border:1px solid var(--line);touch-action:none;user-select:none;cursor:ew-resize}
+.ba-slider img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.ba-before-wrap{position:absolute;inset:0;clip-path:inset(0 calc(100% - var(--ba-pos)) 0 0)}
+.ba-lab{position:absolute;top:var(--space-4);z-index:3;font-family:var(--font-display);text-transform:uppercase;
+  letter-spacing:.1em;font-size:.7rem;color:#fff;background:rgba(10,12,15,.6);padding:.3rem .6rem;border-radius:2px}
+.ba-lab-l{left:var(--space-4)}
+.ba-lab-r{right:var(--space-4)}
+.ba-handle{position:absolute;top:0;bottom:0;left:var(--ba-pos);width:2px;background:var(--accent);transform:translateX(-1px);z-index:4;pointer-events:none}
+.ba-handle span{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:38px;height:38px;border-radius:50%;
+  background:var(--accent);box-shadow:0 2px 12px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center}
+.ba-handle span::before,.ba-handle span::after{content:"";position:absolute;width:0;height:0;border-block:5px solid transparent}
+.ba-handle span::before{left:9px;border-right:6px solid #14171c}
+.ba-handle span::after{right:9px;border-left:6px solid #14171c}
+.ba-podpis{text-align:center;color:var(--muted);font-size:var(--text-sm);margin-top:var(--space-5)}
+
+/* === PROCES AUTO: poziomy "bay" stepper (top-border + numer) - inny kształt niż wspólny pionowy timeline === */
+.auto-proc-row{list-style:none;margin:var(--space-8) 0 0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-6)}
+.auto-proc-row li{position:relative;padding-top:var(--space-5);border-top:2px solid var(--line)}
+.auto-proc-row li::before{content:"";position:absolute;top:-2px;left:0;width:42%;height:2px;background:var(--accent)}
+.ap-no{font-family:var(--font-display);font-weight:700;color:var(--accent);font-size:1.05rem;letter-spacing:.12em}
+.auto-proc-row h3{font-family:var(--font-display);text-transform:uppercase;letter-spacing:.02em;font-size:1.1rem;margin:.5rem 0 .4rem}
+.auto-proc-row p{color:var(--muted);font-size:var(--text-sm);line-height:1.55}
+@media(max-width:760px){.auto-proc-row{grid-template-columns:1fr 1fr;gap:var(--space-7) var(--space-5)}}
+@media(max-width:420px){.auto-proc-row{grid-template-columns:1fr}}
+
+/* === MARKI / CZYM PRACUJEMY: nazwy tekstem (bez logotypów) - eyebrow neutralny (krytyka 4a) === */
+.auto-marki .marki-list{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(.8rem,2.5vw,1.6rem);list-style:none;margin:var(--space-7) 0 0;padding:0}
+.auto-marki .marki-list li{font-family:var(--font-display);text-transform:uppercase;letter-spacing:.12em;font-weight:600;
+  font-size:clamp(.82rem,1.5vw,1rem);color:var(--ink-soft);padding:.5rem 1rem;border:1px solid var(--line);border-radius:var(--r-sm)}
+.marki-gwar{text-align:center;color:var(--muted);font-size:var(--text-sm);margin-top:var(--space-6)}
+
+/* === sticky-reserve: brass z ciemnym tekstem (kontrast) === */
+.sticky-reserve .sr-book{color:#14171c}

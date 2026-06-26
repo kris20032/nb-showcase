@@ -1,0 +1,27 @@
+{
+  "ocena": "5,0",
+  "opinie": "98",
+  "rok": "2016",
+  "pakiety": [
+    {
+      "nazwa": "Ochrona Start",
+      "lata": "2",
+      "opis": "Powłoka kwarcowa dla aut codziennego użytku - łatwiejsze mycie i głębszy kolor.",
+      "zakres": ["Mycie detailingowe", "Dekontaminacja lakieru", "Powłoka kwarcowa", "Zabezpieczenie felg"]
+    },
+    {
+      "nazwa": "Ochrona Premium",
+      "lata": "5",
+      "opis": "Korekta jednoetapowa i trwała powłoka ceramiczna - dla aut, które mają wyglądać jak nowe.",
+      "zakres": ["Korekta lakieru 1-etapowa", "Powłoka ceramiczna 5 lat", "Powłoka na szyby", "Felgi i plastiki"]
+    },
+    {
+      "nazwa": "Ochrona Elite",
+      "lata": "9",
+      "opis": "Pełna wieloetapowa korekta i najtrwalsza powłoka - maksymalna głębia i ochrona.",
+      "zakres": ["Korekta wieloetapowa", "Powłoka ceramiczna 9 lat", "Folia PPF na front", "Detailing wnętrza"]
+    }
+  ],
+  "marki": ["GYEON", "Koch-Chemie", "Rupes"],
+  "gwarancja": "Na powłoki ceramiczne udzielamy gwarancji zgodnej z wybranym pakietem."
+}
