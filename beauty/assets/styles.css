@@ -224,6 +224,13 @@ p{max-width:65ch}
 
 /* ---------- GALLERY (realizacje) ---------- */
 .gallery{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--space-4);grid-auto-rows:200px}
+/* GALERIA MASONRY — pionowe zdjęcia (portrety beauty/wellness) bez przycinania: kolumny, height auto */
+.gallery-masonry{column-count:3;column-gap:var(--space-4)}
+@media(max-width:900px){.gallery-masonry{column-count:2}}
+@media(max-width:560px){.gallery-masonry{column-count:1}}
+.gallery-masonry .m-tile{break-inside:avoid;margin:0 0 var(--space-4);padding:0;position:relative;overflow:hidden;border-radius:var(--r-md);border:1px solid var(--line)}
+.gallery-masonry .m-tile img{width:100%;height:auto;display:block}
+.gallery-masonry .m-tile .cap{position:absolute;left:0;right:0;bottom:0;padding:var(--space-4);color:#fff;background:linear-gradient(0deg,rgba(0,0,0,.55),transparent);font-size:var(--text-sm)}
 .tile{position:relative;overflow:hidden;border-radius:var(--r-md);box-shadow:var(--sh-sm);
   transition:transform var(--dur) var(--ease),box-shadow var(--dur) var(--ease)}
 .tile img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
@@ -464,15 +471,7 @@ section{padding-block:clamp(64px,8vw,128px)}
 .doc:hover{transform:translateY(-3px);box-shadow:var(--sh-sm)}
 section{padding-block:clamp(74px,10vh,124px)}   /* nieco więcej oddechu niż reszta rodzin */
 
-/* --- NAV WELLNESS: jasny-cream półprzezroczysty, fixed, ink-soft linki, pill-CTA accent-d, NIE zwijany --- */
-.nav{position:fixed;left:0;right:0;background:color-mix(in srgb,var(--paper) 88%,transparent);
-  backdrop-filter:saturate(130%) blur(10px);border-bottom:1px solid transparent;transition:background .4s ease,box-shadow .4s ease}
-.nav-inner{height:80px}                          /* wyższy = spokojniejszy (sygnatura wellness) */
-.nav.is-stuck{background:color-mix(in srgb,var(--paper) 96%,transparent);
-  border-bottom:1px solid color-mix(in srgb,var(--accent) 22%,transparent);box-shadow:0 10px 30px -26px rgba(0,0,0,.3)}
-.nav.is-stuck .nav-inner{height:64px}
-.nav .nav-links a.btn-accent{border-radius:999px;background:var(--accent-d);color:#fff;border:1px solid var(--accent-d);padding:var(--space-3) var(--space-6)}
-.nav .nav-links a.btn-accent:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+/* (NAV usunięty - generuje go silnik multipage.py: _nav_css + sekcja "NAV NOBU (silnik): wellness") */
 
 /* === HERO WELLNESS: editorial SPLIT na bieli, zdjęcie OPRAWIONE (offset passe-partout), STATYCZNE (bez Ken Burns) === */
 .hero-spa{position:relative;background:var(--paper);padding-top:clamp(6.5rem,12vh,9rem);padding-bottom:clamp(3rem,8vh,6rem)}
@@ -530,7 +529,8 @@ section{padding-block:clamp(74px,10vh,124px)}   /* nieco więcej oddechu niż re
 .pagehead-soft p{color:var(--ink-soft);margin-top:var(--space-4);max-width:46ch}
 .pagehead-soft .ph-fig{margin:0;aspect-ratio:4/3;border-radius:16px;overflow:hidden;box-shadow:var(--sh-md)}
 .pagehead-soft .ph-fig img{width:100%;height:100%;object-fit:cover}
-@media(max-width:860px){.pagehead-soft .wrap{grid-template-columns:1fr}.pagehead-soft .ph-fig{order:-1;aspect-ratio:16/10}}
+.pagehead-soft .ph-copy{order:-1}   /* figure PIERWSZE w DOM (blur-guard) -> copy wizualnie z lewej przez order */
+@media(max-width:860px){.pagehead-soft .wrap{grid-template-columns:1fr}.pagehead-soft .ph-copy{order:0}.pagehead-soft .ph-fig{aspect-ratio:16/10}}
 
 /* === VOUCHER: miękki blush-band (JEDEN akcentowy band na stronie, nie co druga sekcja) === */
 .voucher{background:color-mix(in srgb,var(--accent) 9%,var(--paper));text-align:center}
@@ -539,3 +539,39 @@ section{padding-block:clamp(74px,10vh,124px)}   /* nieco więcej oddechu niż re
 
 /* === RYTM TŁA: cennik wraca na cream (nie paper-2), żeby blush-voucher był jedynym akcentem === */
 .menu-sec{background:var(--paper)}
+
+/* === NAV NOBU (silnik): wellness === */
+.nav{position:fixed;left:0;right:0;backdrop-filter:none;border-bottom:1px solid transparent;z-index:100;transition:transform .35s var(--ease),background .35s ease,box-shadow .35s ease}
+.nav.nav-hidden{transform:translateY(-100%)}
+.nav.is-stuck{background:transparent;box-shadow:none;border-bottom-color:transparent}
+.nav.is-stuck .nav-inner{height:64px}
+.nav .brand{flex-direction:row;align-items:baseline;gap:.6rem;line-height:1}
+.nav .brand .name{font-family:var(--font-display);font-weight:600;font-size:1.5rem;text-transform:uppercase;letter-spacing:.14em}
+.nav .brand .sub{margin-top:0;padding-left:.65rem;border-left:1px solid currentColor;font-size:.66rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase}
+.nav .nav-links a{font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;padding-block:6px}
+.nav .nav-links a::after{height:1px}
+.nav .nav-links a.btn-accent{font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;padding:.5rem 1.1rem;border-radius:4px;box-shadow:none}
+.nav .nav-links a.btn-accent:hover{transform:none;box-shadow:none}
+.nav .nav-links a.btn-accent{background:var(--accent);border:1px solid var(--accent);color:#14171c}
+.nav .nav-links a.btn-accent:hover{background:var(--accent);border-color:var(--accent);color:#14171c;filter:brightness(1.07)}
+.nav{background:color-mix(in srgb,var(--paper) 82%,transparent);backdrop-filter:saturate(140%) blur(10px)}
+.nav .brand .name{color:var(--ink)}
+.nav .brand .sub{color:var(--accent-d)}
+.nav .nav-links a:not(.btn-accent){color:var(--ink-soft)}
+.nav .nav-links a:not(.btn-accent):hover,.nav .nav-links a.active:not(.btn-accent){color:var(--ink)}
+.nav .nav-links a:not(.btn-accent)::after{background:var(--accent-d)}
+.nav .nav-toggle span{background:var(--ink)}
+.nav.nav-solid{background:color-mix(in srgb,var(--paper) 96%,transparent);border-bottom:var(--hairline);box-shadow:0 10px 30px -24px rgba(0,0,0,.25)}
+.nav.nav-hidden{box-shadow:none}
+@media(min-width:681px){
+.nav .nav-inner{position:relative;height:64px}
+.nav .nav-links{flex:1;justify-content:center;gap:clamp(1rem,2.2vw,1.9rem);padding-right:12rem}
+.nav .nav-links a.btn-accent{position:absolute;right:0;top:50%;transform:translateY(-50%);margin:0}
+}
+@media(max-width:680px){
+.nav .nav-links:not(.open){transform:translateY(-160%);visibility:hidden}
+.nav .nav-links.open{visibility:visible}
+.nav .brand .name{font-size:1.12rem;letter-spacing:.1em}
+.nav .brand .sub{display:none}
+.nav .brand{min-width:0;overflow:hidden}
+}

@@ -224,6 +224,13 @@ p{max-width:65ch}
 
 /* ---------- GALLERY (realizacje) ---------- */
 .gallery{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--space-4);grid-auto-rows:200px}
+/* GALERIA MASONRY — pionowe zdjęcia (portrety beauty/wellness) bez przycinania: kolumny, height auto */
+.gallery-masonry{column-count:3;column-gap:var(--space-4)}
+@media(max-width:900px){.gallery-masonry{column-count:2}}
+@media(max-width:560px){.gallery-masonry{column-count:1}}
+.gallery-masonry .m-tile{break-inside:avoid;margin:0 0 var(--space-4);padding:0;position:relative;overflow:hidden;border-radius:var(--r-md);border:1px solid var(--line)}
+.gallery-masonry .m-tile img{width:100%;height:auto;display:block}
+.gallery-masonry .m-tile .cap{position:absolute;left:0;right:0;bottom:0;padding:var(--space-4);color:#fff;background:linear-gradient(0deg,rgba(0,0,0,.55),transparent);font-size:var(--text-sm)}
 .tile{position:relative;overflow:hidden;border-radius:var(--r-md);box-shadow:var(--sh-sm);
   transition:transform var(--dur) var(--ease),box-shadow var(--dur) var(--ease)}
 .tile img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
@@ -447,7 +454,6 @@ section{padding-block:clamp(64px,8vw,128px)}
 .eyebrow{color:var(--accent-d)}                       /* było --accent (4.31 na paper-2) */
 .proces.klinika .pno{color:var(--accent-d)}
 .doc-role{color:var(--accent-d)}
-.nav-links a.active{color:var(--ink)}
 
 /* === HERO KLINIKA: jasny editorial split, zdjęcie OPRAWIONE (img PIERWSZE dziecko = blur-guard + mobilny stack), STATYCZNE === */
 .hero-klinika{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,4.5rem);align-items:center;
@@ -524,3 +530,39 @@ section{padding-block:clamp(64px,8vw,128px)}
 .op-star{color:var(--accent-d);letter-spacing:.1em;font-size:.95rem}
 .op-card blockquote{margin:0;color:var(--ink-soft);font-size:var(--text-base);line-height:1.6}
 .op-autor{font-family:var(--font-display);font-weight:700;color:var(--ink);font-size:.95rem}
+
+/* === NAV NOBU (silnik): klinika === */
+.nav{position:fixed;left:0;right:0;backdrop-filter:none;border-bottom:1px solid transparent;z-index:100;transition:transform .35s var(--ease),background .35s ease,box-shadow .35s ease}
+.nav.nav-hidden{transform:translateY(-100%)}
+.nav.is-stuck{background:transparent;box-shadow:none;border-bottom-color:transparent}
+.nav.is-stuck .nav-inner{height:64px}
+.nav .brand{flex-direction:row;align-items:baseline;gap:.6rem;line-height:1}
+.nav .brand .name{font-family:var(--font-display);font-weight:600;font-size:1.5rem;text-transform:uppercase;letter-spacing:.14em}
+.nav .brand .sub{margin-top:0;padding-left:.65rem;border-left:1px solid currentColor;font-size:.66rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase}
+.nav .nav-links a{font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;padding-block:6px}
+.nav .nav-links a::after{height:1px}
+.nav .nav-links a.btn-accent{font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;padding:.5rem 1.1rem;border-radius:4px;box-shadow:none}
+.nav .nav-links a.btn-accent:hover{transform:none;box-shadow:none}
+.nav .nav-links a.btn-accent{background:var(--accent-d);border:1px solid var(--accent-d);color:#fff}
+.nav .nav-links a.btn-accent:hover{background:var(--accent-d);border-color:var(--accent-d);color:#fff;filter:brightness(1.07)}
+.nav{background:color-mix(in srgb,var(--paper) 82%,transparent);backdrop-filter:saturate(140%) blur(10px)}
+.nav .brand .name{color:var(--ink)}
+.nav .brand .sub{color:var(--accent-d)}
+.nav .nav-links a:not(.btn-accent){color:var(--ink-soft)}
+.nav .nav-links a:not(.btn-accent):hover,.nav .nav-links a.active:not(.btn-accent){color:var(--ink)}
+.nav .nav-links a:not(.btn-accent)::after{background:var(--accent-d)}
+.nav .nav-toggle span{background:var(--ink)}
+.nav.nav-solid{background:color-mix(in srgb,var(--paper) 96%,transparent);border-bottom:var(--hairline);box-shadow:0 10px 30px -24px rgba(0,0,0,.25)}
+.nav.nav-hidden{box-shadow:none}
+@media(min-width:681px){
+.nav .nav-inner{position:relative;height:64px}
+.nav .nav-links{flex:1;justify-content:center;gap:clamp(1rem,2.2vw,1.9rem);padding-right:12rem}
+.nav .nav-links a.btn-accent{position:absolute;right:0;top:50%;transform:translateY(-50%);margin:0}
+}
+@media(max-width:680px){
+.nav .nav-links:not(.open){transform:translateY(-160%);visibility:hidden}
+.nav .nav-links.open{visibility:visible}
+.nav .brand .name{font-size:1.12rem;letter-spacing:.1em}
+.nav .brand .sub{display:none}
+.nav .brand{min-width:0;overflow:hidden}
+}
