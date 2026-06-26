@@ -46,7 +46,7 @@
   var nav = document.querySelector('.nav');
   if (!nav) return;
   var last = window.scrollY || 0;
-  var H = 64;     // wysokość paska: poniżej tego NIE chowamy (jak próg a=64 u Nobu)
+  var H = 10;     // tuż pod górą chowamy OD RAZU przy scrollu w dół (nim base.js zdąży pokazać krem przy 24px - to był ten "zmienia kolor potem chowa")
   var TOP = 4;    // "sama góra" -> przezroczysty overlay nad hero, zawsze widoczny
   var TH = 6;     // martwa strefa na mikro-ruch, żeby nie migało
   var ticking = false;
