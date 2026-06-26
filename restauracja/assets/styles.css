@@ -470,7 +470,7 @@ section{padding-block:clamp(64px,8vw,128px)}
    Przezroczysty nad hero + scrim, lity krem po scrollu (is-stuck), chowanie na scroll (nav-hidden). CSS-only, scope gastro.
    ============================================================ */
 .nav{position:fixed;left:0;right:0;background:transparent;backdrop-filter:none;border-bottom:1px solid transparent;z-index:100;
-  transition:transform .45s var(--ease),background .4s ease,box-shadow .4s ease}
+  transition:transform .3s var(--ease),background .4s ease,box-shadow .4s ease}
 .nav.nav-hidden{transform:translateY(-100%)}
 /* SCRIM: ciemny gradient pod navem -> biały tekst czytelny nad dowolnym zdjęciem (jak Nobu, ~180px) */
 .nav::after{content:"";position:absolute;left:0;right:0;top:0;height:150px;z-index:-1;pointer-events:none;

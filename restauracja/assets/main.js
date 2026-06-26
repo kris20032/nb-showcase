@@ -39,28 +39,31 @@
 })();
 
 /* === rodzina: gastro === */
-/* === rodzina GASTRO: nav chowa się przy scrollu w DÓŁ, wjeżdża przy scrollu w GÓRĘ ===
-   Współgra z base.js (is-stuck = przezroczysty -> lity). Blisko góry zawsze widoczny. */
+/* === rodzina GASTRO: nav jak Nobu — po pierwszym scrollu w DÓŁ chowa się OD RAZU,
+   przy scrollu w GÓRĘ wraca. BRAK strefy "blisko góry zawsze widoczny".
+   Współgra z base.js (is-stuck = przezroczysty -> lity po scrollY>24). === */
 (function () {
   var nav = document.querySelector('.nav');
   if (!nav) return;
   var last = window.scrollY || 0;
-  var TH = 8;            // próg, żeby nie migało przy mikro-ruchu
-  var SHOW_NEAR = 120;   // blisko góry zawsze widoczny
+  var H = 64;     // wysokość paska: poniżej tego NIE chowamy (jak próg a=64 u Nobu)
+  var TOP = 4;    // "sama góra" -> przezroczysty overlay nad hero, zawsze widoczny
+  var TH = 6;     // martwa strefa na mikro-ruch, żeby nie migało
   var ticking = false;
   function upd() {
     var y = window.scrollY || 0;
-    if (y < SHOW_NEAR) {
-      nav.classList.remove('nav-hidden');
-    } else if (y > last + TH) {
-      nav.classList.add('nav-hidden');      // scroll w dół -> schowaj
+    if (y <= TOP) {
+      nav.classList.remove('nav-hidden');          // sama góra: overlay widoczny
+    } else if (y > last + TH && y > H) {
+      nav.classList.add('nav-hidden');             // scroll w DÓŁ pod paskiem -> chowaj od razu
     } else if (y < last - TH) {
-      nav.classList.remove('nav-hidden');   // scroll w górę -> pokaż
+      nav.classList.remove('nav-hidden');          // scroll w GÓRĘ -> pokaż (lity, bo is-stuck)
     }
     last = y;
     ticking = false;
   }
   window.addEventListener('scroll', function () {
-    if (!ticking) { window.requestAnimationFrame(upd); ticking = true; }
+    if (!ticking) { ticking = true; window.requestAnimationFrame(upd); }
   }, { passive: true });
+  upd();
 })();
