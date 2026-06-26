@@ -1,0 +1,9 @@
+{
+  "gwarancja": "na robociznę do 5 lat",
+  "staty": [{"value": "1200+", "label": "zleceń"}, {"value": "24h", "label": "dojazd na awarie"}],
+  "recenzje": [
+    {"tekst": "Przyjechali tego samego dnia, naprawili wyciek i posprzątali. Polecam.", "autor": "Anna, Warszawa", "ocena": 5},
+    {"tekst": "Uczciwa wycena, bez naciągania. Wszystko działa jak należy.", "autor": "Marek, Pruszków", "ocena": 5},
+    {"tekst": "Solidnie i terminowo, faktura od ręki.", "autor": "Tomasz, Piaseczno", "ocena": 5}
+  ]
+}
