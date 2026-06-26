@@ -1,5 +1,22 @@
-{ "systemy": [
-    {"tagline": "Ciepłe okna PVC pod normy WT 2021.", "spec": [["Uw od","0,77 W/m²K"],["komory","7"],["głębokość","82 mm"],["akustyka","do 45 dB"]]},
-    {"tagline": "Aluminiowe drzwi wejściowe o wysokiej izolacji."},
-    {"tagline": "Bramy garażowe segmentowe - ciche i bezpieczne."} ],
-  "partnerzy": ["Autoryzowany partner Veka","Aluplast"], "certy": ["Klasa RC2"], "gwarancja": "do 7 lat" }
+{
+  "parametry": [
+    {"value": "0,77", "unit": "W/m²K", "label": "Uw od"},
+    {"value": "45", "unit": "dB", "label": "Akustyka do"},
+    {"value": "7", "unit": "", "label": "Komór w profilu"},
+    {"value": "7", "unit": "lat", "label": "Gwarancji"}
+  ],
+  "systemy": [
+    {"tagline": "Ciepłe okna PVC pod normy WT 2021.", "spec": [["Uw od", "0,77 W/m²K"], ["komory", "7"], ["głębokość", "82 mm"], ["akustyka", "do 45 dB"]]},
+    {"tagline": "Aluminiowe drzwi wejściowe o wysokiej izolacji.", "spec": [["Ud od", "0,9 W/m²K"], ["antywłamaniowość", "RC2"]]},
+    {"tagline": "Bramy garażowe segmentowe - ciche i bezpieczne.", "spec": [["izolacja", "40 mm"], ["napęd", "w cenie"]]}
+  ],
+  "kolory": [
+    {"nazwa": "Antracyt", "hex": "#2f3338"},
+    {"nazwa": "Złoty dąb", "hex": "#9a6a33"},
+    {"nazwa": "Orzech", "hex": "#5a3a22"},
+    {"nazwa": "Biały", "hex": "#f4f5f6"}
+  ],
+  "partnerzy": ["Veka", "Aluplast", "Schüco"],
+  "certy": ["Klasa RC2"],
+  "gwarancja": "do 7 lat"
+}
