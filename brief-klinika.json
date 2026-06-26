@@ -1,0 +1,17 @@
+{
+  "staty": [{"value": "15 000+", "label": "pacjentów"}, {"value": "6", "label": "specjalistów"}],
+  "akredytacje": ["Certyfikat Invisalign", "Cyfrowy skaner 3D"],
+  "zespol": [
+    {"imie": "dr Marta Zielińska", "rola": "Stomatolog", "bio": "Stomatologia zachowawcza i estetyczna."},
+    {"imie": "dr Paweł Nowak", "rola": "Ortodonta", "bio": "Leczenie wad zgryzu u dorosłych i dzieci."},
+    {"imie": "dr Anna Lis", "rola": "Periodontolog", "bio": "Leczenie dziąseł i profilaktyka."}
+  ],
+  "recenzje": [
+    {"tekst": "Bardzo spokojne podejście, wszystko wytłumaczone. Bez stresu.", "autor": "Katarzyna, Wrocław", "ocena": 5},
+    {"tekst": "Profesjonalnie i bezboleśnie. Polecam całą rodzinę.", "autor": "Michał, Wrocław", "ocena": 5}
+  ],
+  "faq": [
+    {"q": "Czy przyjmujecie na NFZ?", "a": "Pracujemy komercyjnie - dzięki temu mamy więcej czasu na każdą wizytę."},
+    {"q": "Czy zabiegi są bolesne?", "a": "Stosujemy skuteczne znieczulenie i pracujemy spokojnie, w Twoim tempie."}
+  ]
+}
