@@ -465,19 +465,21 @@ section{padding-block:clamp(64px,8vw,128px)}
 @media(max-width:640px){.hg-tagline{font-size:clamp(2rem,8vw,2.6rem);margin-bottom:clamp(2rem,9vh,3.4rem)}}
 
 /* ============================================================
-   NAWIGACJA GASTRO - styl NOBU (Marbella, odtworzone z żywego kodu noburestaurants.com, research wf_d6d990de).
-   3 strefy: marka LEWO (Bodoni wersaliki + miasto obok jak NOBU+MARBELLA) / linki ŚRODEK wersaliki / CTA "Rezerwacja" PRAWO.
-   Przezroczysty nad hero + scrim, lity krem po scrollu (is-stuck), chowanie na scroll (nav-hidden). CSS-only, scope gastro.
+   NAWIGACJA GASTRO - styl NOBU (research wf_d6d990de + wf_a8c0864c, żywy kod noburestaurants.com).
+   3 strefy, STAŁA wysokość 64px (jak Nobu). JEDEN kontroler gastro.js steruje stanami kierunkowo:
+   .nav-hidden (chowanie w dół) + .nav-solid (lity krem przy scrollu w górę). Histereza = brak migania.
+   is-stuck (base.js, twardy próg 24px) NEUTRALIZOWANE wizualnie - inaczej base walczyło z gastro i krem migał przy górze.
    ============================================================ */
 .nav{position:fixed;left:0;right:0;background:transparent;backdrop-filter:none;border-bottom:1px solid transparent;z-index:100;
-  transition:transform .3s var(--ease),background .4s ease,box-shadow .4s ease}
+  transition:transform .35s var(--ease),background .35s ease,box-shadow .35s ease}
 .nav.nav-hidden{transform:translateY(-100%)}
-/* chowany nav = przezroczysty/bez cienia (nawet gdy is-stuck) - żeby NIE mignął kremem zjeżdżając w górę (feedback Krzysztofa: "zmienia kolor i dopiero się chowa"). Specyficzność 0,3,0 bije is-stuck. */
-.nav.is-stuck.nav-hidden{background:transparent;box-shadow:none;border-bottom-color:transparent}
-/* SCRIM: ciemny gradient pod navem -> biały tekst czytelny nad dowolnym zdjęciem (jak Nobu, ~180px) */
+/* NEUTRALIZACJA base is-stuck dla gastro (gastro.js używa nav-solid; base.js dalej rusza is-stuck, ale bez efektu wizualnego) */
+.nav.is-stuck{background:transparent;box-shadow:none;border-bottom-color:transparent}
+.nav.is-stuck .nav-inner{height:64px}
+/* SCRIM: ciemny gradient pod navem -> biały tekst czytelny nad zdjęciem; znika gdy nav lity */
 .nav::after{content:"";position:absolute;left:0;right:0;top:0;height:150px;z-index:-1;pointer-events:none;
-  transition:opacity .4s ease;background:linear-gradient(180deg,rgba(8,6,4,.55) 0%,rgba(8,6,4,0) 100%)}
-.nav.is-stuck::after{opacity:0}
+  transition:opacity .35s ease;background:linear-gradient(180deg,rgba(8,6,4,.55) 0%,rgba(8,6,4,0) 100%)}
+.nav.nav-solid::after{opacity:0}
 /* WORDMARK: nazwa Bodoni wersaliki + miasto obok (kreska akcentu) */
 .nav .brand{flex-direction:row;align-items:baseline;gap:.6rem;line-height:1}
 .nav .brand .name{color:#f5f1ea;font-family:var(--font-display);font-weight:600;font-size:1.5rem;text-transform:uppercase;letter-spacing:.14em}
@@ -492,22 +494,23 @@ section{padding-block:clamp(64px,8vw,128px)}
 .nav .nav-links a.btn-accent{font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;
   padding:.5rem 1.1rem;border-radius:4px;border:1px solid var(--accent);background:var(--accent);color:#fff;box-shadow:none}
 .nav .nav-links a.btn-accent:hover{transform:none;box-shadow:none}
-/* PO SCROLLU: lity krem + ciemny tekst + terakotowe akcenty */
-.nav.is-stuck{background:color-mix(in srgb,var(--paper) 94%,transparent);backdrop-filter:saturate(140%) blur(10px);border-bottom:var(--hairline)}
-.nav.is-stuck .brand .name{color:var(--ink)}
-.nav.is-stuck .brand .sub{color:var(--accent)}
-.nav.is-stuck .nav-links a{color:var(--ink-soft)}
-.nav.is-stuck .nav-links a:hover,.nav.is-stuck .nav-links a.active{color:var(--ink)}
-.nav.is-stuck .nav-links a::after{background:var(--accent)}
-.nav.is-stuck .nav-toggle span{background:var(--ink)}
-/* ===== DESKTOP (>=681px): 3 strefy + pasek 64px (mobilny dropdown z base nietknięty) ===== */
+/* STAN LITY (nav-solid - gastro.js dodaje przy scrollu w GÓRĘ): krem + ciemny tekst + terakota */
+.nav.nav-solid{background:color-mix(in srgb,var(--paper) 94%,transparent);backdrop-filter:saturate(140%) blur(10px);border-bottom:var(--hairline)}
+.nav.nav-solid .brand .name{color:var(--ink)}
+.nav.nav-solid .brand .sub{color:var(--accent)}
+.nav.nav-solid .nav-links a{color:var(--ink-soft)}
+.nav.nav-solid .nav-links a:hover,.nav.nav-solid .nav-links a.active{color:var(--ink)}
+.nav.nav-solid .nav-links a::after{background:var(--accent)}
+.nav.nav-solid .nav-toggle span{background:var(--ink)}
+/* chowany nav ZAWSZE przezroczysty (nie mignie kremem zjeżdżając w górę) */
+.nav.nav-solid.nav-hidden{background:transparent;box-shadow:none;border-bottom-color:transparent}
+/* ===== DESKTOP (>=681px): 3 strefy, STAŁA wysokość 64px ===== */
 @media(min-width:681px){
   .nav .nav-inner{position:relative;height:64px}
-  .nav.is-stuck .nav-inner{height:56px}
   .nav .nav-links{flex:1;justify-content:center;gap:clamp(1rem,2.2vw,1.9rem);padding-right:9.5rem}
   .nav .nav-links a.btn-accent{position:absolute;right:0;top:50%;transform:translateY(-50%);margin:0}
-  .nav:not(.is-stuck) .nav-links a.btn-accent{background:transparent;border-color:rgba(245,241,234,.55);color:#f5f1ea}
-  .nav:not(.is-stuck) .nav-links a.btn-accent:hover{background:var(--accent);border-color:var(--accent);color:#fff;transform:translateY(-50%)}
+  .nav:not(.nav-solid) .nav-links a.btn-accent{background:transparent;border-color:rgba(245,241,234,.55);color:#f5f1ea}
+  .nav:not(.nav-solid) .nav-links a.btn-accent:hover{background:var(--accent);border-color:var(--accent);color:#fff;transform:translateY(-50%)}
 }
 /* ===== MOBILE (<=680px): dropdown na kremie - ciemny tekst, pełne CTA (fix kontrastu) ===== */
 @media(max-width:680px){

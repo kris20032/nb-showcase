@@ -39,28 +39,33 @@
 })();
 
 /* === rodzina: gastro === */
-/* === rodzina GASTRO: nav jak Nobu — po pierwszym scrollu w DÓŁ chowa się OD RAZU,
-   przy scrollu w GÓRĘ wraca. BRAK strefy "blisko góry zawsze widoczny".
-   Współgra z base.js (is-stuck = przezroczysty -> lity po scrollY>24). === */
+/* === rodzina GASTRO: nav jak Nobu - JEDEN kontroler stanu (koniec wyścigu z base.js is-stuck).
+   - sama GÓRA (y<=TOP): przezroczysty overlay nad hero (bez nav-solid, bez nav-hidden)
+   - scroll w DÓŁ: chowa OD RAZU (.nav-hidden)
+   - scroll w GÓRĘ: pokazuje lity krem (.nav-solid)
+   Histereza (TH) = brak migania. is-stuck z base.js jest wizualnie zneutralizowane w gastro.css. === */
 (function () {
   var nav = document.querySelector('.nav');
   if (!nav) return;
   var last = window.scrollY || 0;
-  var H = 10;     // tuż pod górą chowamy OD RAZU przy scrollu w dół (nim base.js zdąży pokazać krem przy 24px - to był ten "zmienia kolor potem chowa")
-  var TOP = 4;    // "sama góra" -> przezroczysty overlay nad hero, zawsze widoczny
-  var TH = 6;     // martwa strefa na mikro-ruch, żeby nie migało
+  var TOP = 8;   // "sama góra" -> przezroczysty overlay nad hero
+  var TH = 6;    // martwa strefa na mikro-ruch (anty-miganie)
   var ticking = false;
   function upd() {
     var y = window.scrollY || 0;
     if (y <= TOP) {
-      nav.classList.remove('nav-hidden');          // sama góra: overlay widoczny
-    } else if (y > last + TH && y > H) {
-      nav.classList.add('nav-hidden');             // scroll w DÓŁ pod paskiem -> chowaj od razu
-    } else if (y < last - TH) {
-      nav.classList.remove('nav-hidden');          // scroll w GÓRĘ -> pokaż (lity, bo is-stuck)
+      nav.classList.remove('nav-hidden', 'nav-solid');   // góra: przezroczysty, widoczny
+      last = y; ticking = false; return;
     }
-    last = y;
-    ticking = false;
+    var d = y - last;
+    if (Math.abs(d) <= TH) { ticking = false; return; }  // ignoruj mikro-ruch (stabilność)
+    if (d > 0) {
+      nav.classList.add('nav-hidden');                   // w DÓŁ -> chowaj
+    } else {
+      nav.classList.remove('nav-hidden');
+      nav.classList.add('nav-solid');                    // w GÓRĘ -> pokaż lity
+    }
+    last = y; ticking = false;
   }
   window.addEventListener('scroll', function () {
     if (!ticking) { ticking = true; window.requestAnimationFrame(upd); }
